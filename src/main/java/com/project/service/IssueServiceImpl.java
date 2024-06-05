@@ -8,6 +8,7 @@ import com.project.request.IssueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,18 @@ public class IssueServiceImpl implements IssueService{
 
     @Override
     public List<Issues> getIssueByProjectId(Long id) throws Exception {
-        return issueDao.findByProjectID(id);
+        List<Issues> issues = issueDao.findByProjectID(id);
+//        System.out.println(issues);
+        List<Issues> issue = new ArrayList<>();
+        for (Issues value : issues) {
+            Issues iss = new Issues();
+            iss.setId(value.getId());
+            iss.setDescription(value.getDescription());
+            iss.setDueDate(value.getDueDate());
+            iss.setPriority(value.getPriority());
+            issue.add(iss);
+        }
+        return issue;
     }
 
     @Override
@@ -51,7 +63,8 @@ public class IssueServiceImpl implements IssueService{
         issues.setProjectID(issue.getProjectID());
         issues.setPriority(issue.getPriority());
         issues.setDueDate(issue.getDueDate());
-
+        issues.setProject(projectService.getProjectById(issue.getProjectID()));
+//        issues.setUser(user);
 
         Project project = projectService.getProjectById(issue.getProjectID());
         issues.setProject(project);

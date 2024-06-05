@@ -33,7 +33,7 @@ public class ProjectController {
     private InvitationService invitationService;
 
     @GetMapping("/getProjects")
-    private ResponseEntity<List<Project>> getProjects(@RequestHeader("Authentication") String token,
+    private ResponseEntity<List<Project>> getProjects(@RequestHeader("Authorization") String token,
                                                       @RequestParam(required = false) String category,
                                                       @RequestParam(required = false) String tag)
     {
@@ -45,7 +45,7 @@ public class ProjectController {
     }
 
     @PostMapping("/create-project")
-    private ResponseEntity<Project> getProjectById(@RequestHeader("Authentication") String token,
+    private ResponseEntity<Project> getProjectById(@RequestHeader("Authorization") String token,
     @RequestBody Project p)
     {
         User user = userService.findUserByJwt(token);
@@ -55,8 +55,30 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
+
+    @GetMapping("/{projectId}")
+    private ResponseEntity<Project> getProjectById(@RequestHeader("Authorization") String token,
+                                                   @PathVariable Long projectId)
+    {
+        User user = userService.findUserByJwt(token);
+
+        Project project = projectService.getProjectById(projectId);
+
+        return new ResponseEntity<Project>(project, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Project>> searchProjects(@RequestHeader("Authorization") String token,@RequestParam String keyword){
+        User user = userService.findUserByJwt(token);
+
+        List<Project> projectsByName = projectService.getProjectsByName(keyword, user);
+
+        return new ResponseEntity<>(projectsByName, HttpStatus.OK);
+    }
+
+
     @PostMapping("/update-project/{projectId}")
-    private ResponseEntity<Project> updateProject(@RequestHeader("Authentication") String token,
+    private ResponseEntity<Project> updateProject(@RequestHeader("Authorization") String token,
                                                    @RequestBody Project p,@PathVariable Long projectId)
     {
         User user = userService.findUserByJwt(token);
@@ -67,8 +89,8 @@ public class ProjectController {
     }
 
     @DeleteMapping("/delete-project/{projectId}")
-    private ResponseEntity<String> DeleteProject(@RequestHeader("Authentication") String token,
-                                                  @RequestBody Project p,@PathVariable Long projectId)
+    private ResponseEntity<String> DeleteProject(@RequestHeader("Authorization") String token,
+                                                 @PathVariable Long projectId)
     {
         User user = userService.findUserByJwt(token);
 
@@ -78,7 +100,7 @@ public class ProjectController {
     }
 
     @PostMapping("/getchat/{projectId}")
-    private ResponseEntity<Chat> GetChat(@RequestHeader("Authentication") String token,
+    private ResponseEntity<Chat> GetChat(@RequestHeader("Authorization") String token,
                                                  @PathVariable Long projectId)
     {
 
@@ -89,7 +111,7 @@ public class ProjectController {
 
     @PostMapping("/send-invite")
     private ResponseEntity<String> sendInvite(@RequestBody InvitationRequest request,
-                                               @RequestHeader("Authentication") String token,
+                                               @RequestHeader("Authorization") String token,
                                                @RequestBody Project project) throws MessagingException {
         User user = userService.findUserByJwt(token);
 
@@ -100,7 +122,7 @@ public class ProjectController {
 
     @GetMapping("/accept-invite")
     private ResponseEntity<Invitation> acceptInvite(@RequestBody InvitationRequest request,
-                                              @RequestHeader("Authentication") String jwt,
+                                              @RequestHeader("Authorization") String jwt,
                                               @RequestParam String token,
                                               @RequestBody Project project) throws Exception {
         User user = userService.findUserByJwt(jwt);

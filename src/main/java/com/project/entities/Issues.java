@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,6 @@ public class Issues {
     private User user; //user who assigned the issue
 
     @ManyToOne
-    @JsonIgnore
     private Project project;
 
     private String title;
@@ -37,5 +37,6 @@ public class Issues {
 
     @JsonIgnore
     @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Comment> comments; //inside issues we can write comments abt the particular issue.
+    @ToString.Exclude
+    private List<Comment> comments = new ArrayList<>(); //inside issues we can write comments abt the particular issue.
 }

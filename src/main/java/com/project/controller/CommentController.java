@@ -31,7 +31,7 @@ public class CommentController {
 
     @PostMapping("/create-comment")
     public ResponseEntity<Comment> createComment(@RequestBody CommentRequest commentRequest,
-                                                 @RequestHeader("Authentication") String token) throws Exception{
+                                                 @RequestHeader("Authorization") String token) throws Exception{
 
         User user = userService.findUserByJwt(token);
         Issues issue  = issueService.getIssueById(commentRequest.getIssueId());
@@ -40,9 +40,9 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/delete/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId,
-                                                @RequestHeader("Authentication") String jwt) throws Exception {
+                                                @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwt(jwt);
         commentService.deleteComment(commentId,user.getId());

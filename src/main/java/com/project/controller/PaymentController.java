@@ -30,7 +30,7 @@ public class PaymentController {
 
     @GetMapping("/{planType}")
     public ResponseEntity<PaymentLinkResponse> createPayment(@PathVariable("planType") PlanType planType,
-                                                             @RequestHeader("Authentication") String token) throws Exception {
+                                                             @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwt(token);
 
         int amt = 799*100;

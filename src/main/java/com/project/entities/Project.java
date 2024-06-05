@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.*;
 
 @Entity
@@ -33,11 +35,15 @@ public class Project {
     private Chat chat;
 
     @ManyToOne
+    @JsonIgnore
     private User owner;
 
     @OneToMany(mappedBy = "project",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    @ToString.Exclude
     private List<Issues> issues = new ArrayList<>();
 
     @ManyToMany
-    private List<User> team;
+    @JsonIgnore
+    private List<User> team = new ArrayList<>();
 }

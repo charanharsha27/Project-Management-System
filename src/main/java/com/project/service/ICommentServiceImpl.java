@@ -51,27 +51,27 @@ public class ICommentServiceImpl implements ICommentService {
 
     @Override
     public void deleteComment(Long commentId, Long userId) throws Exception {
-//        User user = userService.findUserById(userId);
-//        Comment comment = commentDao.findByIdAndUser(commentId,user);
-//        commentDao.delete(comment);
+        User user = userService.findUserById(userId);
+        Comment comment = commentDao.findByIdAndUser(commentId,user);
+        commentDao.delete(comment);
 
-        Optional<Comment> comment = commentDao.findById(commentId);
-        Optional<User> user = userDao.findById(userId);
-
-        if(comment.isEmpty()){
-            throw new Exception("Comment not found");
-        }
-
-        if(user.isEmpty()){
-            throw new Exception("User not found");
-        }
-
-        if(comment.get().getUser().equals(user)){
-            commentDao.delete(comment.get());
-        }
-        else{
-            throw new Exception("Comment not deleted by you");
-        }
+//        Optional<Comment> comment = commentDao.findById(commentId);
+//        Optional<User> user = userDao.findById(userId);
+//
+//        if(comment.isEmpty()){
+//            throw new Exception("Comment not found");
+//        }
+//
+//        if(user.isEmpty()){
+//            throw new Exception("User not found");
+//        }
+//
+//        if(comment.get().getUser().equals(user)){
+//            commentDao.delete(comment.get());
+//        }
+//        else{
+//            throw new Exception("Comment not deleted by you");
+//        }
     }
 
     @Override

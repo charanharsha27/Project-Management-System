@@ -22,13 +22,16 @@ public class IProjectServiceImpl implements IProjectService {
     private IUserDao userDao;
 
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private IChatDao chatDao;
 
     @Override
     public Project createProject(Project project, User user) {
         project.setOwner(user);
         project.getTeam().add(user);
-
+        userService.updateUserProjectSize(user, 1);
         Chat chat = new Chat();
         chat.setProject(project);
         project.setChat(chat);

@@ -22,7 +22,7 @@ public class SubscriptionController {
     private IUserService userService;
 
     @GetMapping("/user")
-    private ResponseEntity<Subscription> getSubscription(@RequestHeader("Authentication") String token) {
+    private ResponseEntity<Subscription> getSubscription(@RequestHeader("Authorization") String token) {
 
         User user = userService.findUserByJwt(token);
 
@@ -32,7 +32,7 @@ public class SubscriptionController {
     }
 
     @PostMapping("/upgrade-subscription")
-    private ResponseEntity<Subscription> upgradeSubscription(@RequestHeader("Authentication") String token,
+    private ResponseEntity<Subscription> upgradeSubscription(@RequestHeader("Authorization") String token,
                                                             @RequestParam PlanType plantype){
 
         User user = userService.findUserByJwt(token);

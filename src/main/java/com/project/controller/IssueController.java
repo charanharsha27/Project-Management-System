@@ -40,7 +40,7 @@ public class IssueController {
     }
 
     @PostMapping("/create-issue")
-    public ResponseEntity<Issues> createIssue(@RequestBody IssueRequest issue,@RequestHeader("Authentication") String token) throws Exception{
+    public ResponseEntity<Issues> createIssue(@RequestBody IssueRequest issue,@RequestHeader("Authorization") String token) throws Exception{
         User tokenUser = userService.findUserByJwt(token);
         User user = userService.findUserById(tokenUser.getId());
 

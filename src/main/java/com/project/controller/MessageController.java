@@ -32,7 +32,7 @@ public class MessageController {
 
     @PostMapping("/create-message")
     public ResponseEntity<Messages> createMessage(@RequestBody MessageRequest msg,
-                                                  @RequestHeader("Authentication") String token) throws Exception {
+                                                  @RequestHeader("Authorization") String token) throws Exception {
 
         User user = userService.findUserByJwt(token);
 
