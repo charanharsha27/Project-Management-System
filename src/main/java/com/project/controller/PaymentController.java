@@ -28,16 +28,16 @@ public class PaymentController {
     private IUserService userService;
 
 
-    @GetMapping("/{planType}")
+    @PostMapping("/{planType}")
     public ResponseEntity<PaymentLinkResponse> createPayment(@PathVariable("planType") PlanType planType,
                                                              @RequestHeader("Authorization") String token) throws Exception {
         User user = userService.findUserByJwt(token);
-
-        int amt = 799*100;
+        System.out.println("plan type --> "+planType);
+        int amt = 399*100;
 
         if(planType.equals(PlanType.ANNUALLY)){
-            amt = amt*12;
-            amt = (int)(amt*0.7);
+            amt = 799*100;
+//            amt = (int)(amt*0.7);
         }
 
         try{
@@ -63,12 +63,12 @@ public class PaymentController {
             PaymentLink payment = client.paymentLink.create(paymentLink);
 
             String paymentLinkId = payment.get("id");
-            String paymentLinkUrl = payment.get("url");
+            String paymentLinkUrl = payment.get("short_url");
 
             PaymentLinkResponse paymentLinkResponse = new PaymentLinkResponse();
             paymentLinkResponse.setPayment_link_id(paymentLinkId);
             paymentLinkResponse.setPayment_link_url(paymentLinkUrl);
-
+            System.out.println("payment link -->  "+paymentLinkResponse);
             return new ResponseEntity<>(paymentLinkResponse, HttpStatus.CREATED);
         }
         catch (Exception e){

@@ -38,9 +38,9 @@ public class ProjectController {
                                                       @RequestParam(required = false) String tag)
     {
         User user = userService.findUserByJwt(token);
-
+        System.out.println(category+"-----"+tag);
         List<Project> projects = projectService.getProjectsByTeam(user,category,tag);
-
+        System.out.println(projects);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
@@ -63,15 +63,17 @@ public class ProjectController {
         User user = userService.findUserByJwt(token);
 
         Project project = projectService.getProjectById(projectId);
+        System.out.println("name ---> "+project.getOwner().getName());
 
-        return new ResponseEntity<Project>(project, HttpStatus.OK);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<Project>> searchProjects(@RequestHeader("Authorization") String token,@RequestParam String keyword){
         User user = userService.findUserByJwt(token);
-
+        System.out.println(keyword);
         List<Project> projectsByName = projectService.getProjectsByName(keyword, user);
+        System.out.println("projects retrieved ---> "+projectsByName);
 
         return new ResponseEntity<>(projectsByName, HttpStatus.OK);
     }
@@ -99,20 +101,19 @@ public class ProjectController {
         return new ResponseEntity<>("Project deleted", HttpStatus.OK);
     }
 
-    @PostMapping("/getchat/{projectId}")
+    @GetMapping("/getchat/{projectId}")
     private ResponseEntity<Chat> GetChat(@RequestHeader("Authorization") String token,
                                                  @PathVariable Long projectId)
     {
 
         Chat chat = projectService.getChatByProjectId(projectId);
-
+        System.out.println("chat ->>>> "+chat);
         return new ResponseEntity<>(chat, HttpStatus.OK);
     }
 
     @PostMapping("/send-invite")
     private ResponseEntity<String> sendInvite(@RequestBody InvitationRequest request,
-                                               @RequestHeader("Authorization") String token,
-                                               @RequestBody Project project) throws MessagingException {
+                                               @RequestHeader("Authorization") String token) throws MessagingException {
         User user = userService.findUserByJwt(token);
 
         invitationService.sendInvitation(request.getEmail(), request.getProjectId());
@@ -121,14 +122,12 @@ public class ProjectController {
     }
 
     @GetMapping("/accept-invite")
-    private ResponseEntity<Invitation> acceptInvite(@RequestBody InvitationRequest request,
-                                              @RequestHeader("Authorization") String jwt,
-                                              @RequestParam String token,
-                                              @RequestBody Project project) throws Exception {
+    private ResponseEntity<Invitation> acceptInvite(@RequestHeader("Authorization") String jwt,
+                                              @RequestParam String token) throws Exception {
         User user = userService.findUserByJwt(jwt);
 
         Invitation invitation = invitationService.acceptInvitation(token, user.getId());
-        projectService.addUserToProject(project.getId(), user.getId());
+        projectService.addUserToProject(invitation.getProjectId()   , user.getId());
 
         return new ResponseEntity<>(invitation, HttpStatus.ACCEPTED);
     }

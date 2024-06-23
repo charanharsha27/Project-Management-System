@@ -50,7 +50,7 @@ public class MessageController {
     @GetMapping("/chat/{projectId}")
     public ResponseEntity<List<Messages>> getChatMessages(@PathVariable("projectId") Long projectId) throws Exception {
         List<Messages> messagesList = messageService.getMessagesByProject(projectId);
-
+        System.out.println("messages list ->>"+messagesList);
         return new ResponseEntity<>(messagesList, HttpStatus.OK);
     }
 

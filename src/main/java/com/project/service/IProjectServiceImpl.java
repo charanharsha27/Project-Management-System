@@ -48,7 +48,7 @@ public class IProjectServiceImpl implements IProjectService {
         }
 
         if(tag!=null){
-            projects = projects.stream().filter(project -> project.getTags().contains(category))
+            projects = projects.stream().filter(project -> project.getTags().contains(tag))
                     .collect(Collectors.toList());
         }
 
@@ -62,6 +62,8 @@ public class IProjectServiceImpl implements IProjectService {
 
     @Override
     public void deleteProject(Long projectId, Long userId) {
+        User user = userService.findUserById(userId);
+        user.setProjectsSize(user.getProjectsSize()-1);
         projectDao.deleteById(projectId);
     }
 
@@ -78,17 +80,32 @@ public class IProjectServiceImpl implements IProjectService {
     @Override
     public void addUserToProject(Long ProjectId, Long userId) {
 
-        User user = userDao.findById(userId).orElseThrow( () -> new RuntimeException("User not found"));
+//        User user = userDao.findById(userId).orElseThrow( () -> new RuntimeException("User not found"));
+//
+//        if(user!=null){
+//            Project project = getProjectById(ProjectId);
+//            if(!project.getTeam().contains(user)){
+//                project.getTeam().add(user);
+//                project.getChat().getUsers().add(user);
+//                projectDao.save(project);
+//            }
+//
+//        }
 
-        if(user!=null){
-            Project project = getProjectById(ProjectId);
-            if(!project.getTeam().contains(user)){
-                project.getTeam().add(user);
-                project.getChat().getUsers().add(user);
-                projectDao.save(project);
+        Project project = getProjectById(ProjectId);
+        User user = userDao.findUserById(userId);
+
+        for(User member : project.getTeam()){
+            if(member.getId().equals(userId)){
+                return;
             }
-
         }
+
+        project.getChat().getUsers().add(user);
+        project.getTeam().add(user);
+        user.getProjects().add(project);
+//        user.
+        projectDao.save(project);
 
     }
 
@@ -110,6 +127,7 @@ public class IProjectServiceImpl implements IProjectService {
     @Override
     public Chat getChatByProjectId(Long ProjectId) {
         Project project = getProjectById(ProjectId);
+        System.out.println(project.getChat());
         return project.getChat();
     }
 

@@ -43,12 +43,12 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody User user) {
 
-//        User isExist = userDao.findByEmail(user.getEmail()).orElseThrow( null);
-//        if (isExist != null) {
-//            throw new ResourceNotFoundException("User with this email already exists");
-//        }
+        User isExist = userDao.findByEmail(user.getEmail());
+        if (isExist != null) {
+            throw new ResourceNotFoundException("User with this email already exists");
+        }
 
         User newUser = new User();
         newUser.setEmail(user.getEmail());
@@ -69,7 +69,7 @@ public class AuthController {
         authResponse.setMsg("User registered successfully");
 
 
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
 
 
 

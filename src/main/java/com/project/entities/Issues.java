@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-@ToString
+//@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,9 +21,12 @@ public class Issues {
     private Long id;
 
     @ManyToOne
-    private User user; //user who assigned the issue
+    @ToString.Exclude
+    private User user;
 
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     private Project project;
 
     private String title;
@@ -35,8 +38,7 @@ public class Issues {
 
     private List<String> tags;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Comment> comments = new ArrayList<>(); //inside issues we can write comments abt the particular issue.
+    private List<Comment> comments = new ArrayList<>();
 }

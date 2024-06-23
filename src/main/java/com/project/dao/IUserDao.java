@@ -11,4 +11,6 @@ public interface IUserDao extends JpaRepository<User, Long> {
 
     Optional<User> findById(Long id);
 
+    User findUserById(Long userId);
+
 }

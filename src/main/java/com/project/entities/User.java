@@ -26,25 +26,28 @@ public class User {
     private String password;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    @ToString.Exclude // for issue to-string
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Issues> assignedIssues = new ArrayList<>();
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-//    private List<Issues> issues = new ArrayList<>();
-
 
     @JsonIgnore
     @ManyToMany
+    @ToString.Exclude
     private List<Chat> chat = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "sender",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Messages> messages = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "team",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
     private List<Project> projects = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Project> nprojects;
 
     private int projectsSize;
 }

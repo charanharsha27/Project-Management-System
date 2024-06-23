@@ -39,18 +39,8 @@ public class IssueServiceImpl implements IssueService{
 
     @Override
     public List<Issues> getIssueByProjectId(Long id) throws Exception {
-        List<Issues> issues = issueDao.findByProjectID(id);
-//        System.out.println(issues);
-        List<Issues> issue = new ArrayList<>();
-        for (Issues value : issues) {
-            Issues iss = new Issues();
-            iss.setId(value.getId());
-            iss.setDescription(value.getDescription());
-            iss.setDueDate(value.getDueDate());
-            iss.setPriority(value.getPriority());
-            issue.add(iss);
-        }
-        return issue;
+         return issueDao.findByProjectID(id);
+
     }
 
     @Override

@@ -32,6 +32,7 @@ public class JwtConfigValidator extends OncePerRequestFilter {
 
         // access the token coming from request header
         String authHeader = request.getHeader(header);
+        System.out.println("auth header ---->  "+authHeader);
 
         if(authHeader!=null){
             authHeader = authHeader.substring(7);

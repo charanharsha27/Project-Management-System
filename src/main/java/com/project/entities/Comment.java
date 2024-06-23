@@ -1,9 +1,11 @@
 package com.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -18,13 +20,15 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    private Issues issue; // user writing comments abt the issue.
+    @ToString.Exclude
+    @JsonIgnore
+    private Issues issue;
 
     @ManyToOne
-    private User user; // which user is keeping the comment
+    @ToString.Exclude
+    private User user;
 
     private String content;
 
     private LocalDateTime createdDateTime;
-
 }

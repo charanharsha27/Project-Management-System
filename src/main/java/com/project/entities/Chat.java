@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,16 @@ public class Chat {
     private Long id;
 
     @OneToOne
+    @JsonIgnore
+    @ToString.Exclude
     private Project project;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "chat",orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chat", orphanRemoval = true, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Messages> messages = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "chat",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<User> users = new ArrayList<>();
 
     private String chatName;

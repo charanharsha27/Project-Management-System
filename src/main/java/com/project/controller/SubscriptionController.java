@@ -26,19 +26,22 @@ public class SubscriptionController {
 
         User user = userService.findUserByJwt(token);
 
-        Subscription subscription = subscriptionService.getUserSubscription(user.getId());
+        System.out.println("in get Subscription");
 
+        Subscription subscription = subscriptionService.getUserSubscription(user.getId());
+        System.out.println(subscription);
         return new ResponseEntity<>(subscription, HttpStatus.OK);
     }
 
-    @PostMapping("/upgrade-subscription")
-    private ResponseEntity<Subscription> upgradeSubscription(@RequestHeader("Authorization") String token,
-                                                            @RequestParam PlanType plantype){
+    @PatchMapping("/upgrade-subscription")
+    private ResponseEntity<Subscription> upgradeSubscription(@RequestHeader("Authorization") String jwt,
+                                                            @RequestParam PlanType planType){
 
-        User user = userService.findUserByJwt(token);
+        System.out.println(planType);
+        User user = userService.findUserByJwt(jwt);
 
-        Subscription subscription = subscriptionService.updateSubscription(user.getId(), plantype);
+        Subscription subscription = subscriptionService.updateSubscription(user.getId(), planType);
 
-        return new ResponseEntity<>(subscription, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
@@ -24,5 +25,6 @@ public class Subscription {
     private boolean isValid;
 
     @OneToOne
+    @ToString.Exclude
     private User user;
 }

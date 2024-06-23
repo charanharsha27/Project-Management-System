@@ -19,9 +19,9 @@ public class UserController {
 
     @GetMapping("get-profile")
     public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String token){
-
+        System.out.println(token);
         User user = userService.findUserByJwt(token);
-
+        System.out.println("user fetched "+user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

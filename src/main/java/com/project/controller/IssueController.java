@@ -35,7 +35,7 @@ public class IssueController {
     @GetMapping("/project/{projectId}")
     public ResponseEntity<List<Issues>> getIssueByProjectId(@PathVariable Long projectId) throws Exception{
         List<Issues> issues = issueService.getIssueByProjectId(projectId);
-
+        System.out.println("erfrwerwurhdierbuhbr "+issues);
         return new ResponseEntity<>(issues, HttpStatus.OK);
     }
 

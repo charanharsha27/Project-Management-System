@@ -53,7 +53,8 @@ public class CommentController {
 
     @GetMapping("/{issueId}")
     public ResponseEntity<List<Comment>> getComments(@PathVariable long issueId) throws Exception {
-
+        List<Comment> comment = commentService.getCommentsByIssueId(issueId);
+        System.out.println(comment);
         return new ResponseEntity<>(commentService.getCommentsByIssueId(issueId),HttpStatus.OK);
     }
 }

@@ -21,29 +21,28 @@ public class Project {
 
     private String projectName;
 
-    private String category;
+    private String description;
 
+    private String category;
 
     private List<String> tags;
 
-
     private List<String> categories;
 
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "project",cascade = CascadeType.ALL,orphanRemoval = true)
+//    @JsonIgnore
+    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private Chat chat;
 
     @ManyToOne
-    @JsonIgnore
+    @ToString.Exclude
     private User owner;
 
-    @OneToMany(mappedBy = "project",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Issues> issues = new ArrayList<>();
 
     @ManyToMany
-    @JsonIgnore
+    @ToString.Exclude
     private List<User> team = new ArrayList<>();
 }

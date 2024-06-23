@@ -46,7 +46,7 @@ public class ISubscriptionServiceImpl implements ISubscriptionService {
         }else{
             subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(1));
         }
-
+        System.out.println("updating subscription "+subscription);
         return subscriptionDao.save(subscription);
     }
 
