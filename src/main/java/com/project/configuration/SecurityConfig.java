@@ -56,7 +56,8 @@ public class SecurityConfig {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowedOrigins(Arrays.asList("http://localhost:3000",
                         "http://localhost:4200",
-                        "http://localhost:5173"
+                        "http://localhost:5173",
+                        "https://project-management-system-gold.vercel.app/"
                 ));
                 config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);
