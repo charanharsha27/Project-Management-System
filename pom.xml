@@ -14,7 +14,7 @@
 	<name>Project-Management-System</name>
 	<description>Project Management System Backend using Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
